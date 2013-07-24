@@ -1,7 +1,7 @@
 var base_ts = 1283731200000;
 var week = 0;
 var totals = {days:[], week:0};
-var display_mode = 0, display_modes = [{label: 'units', prefix: ''}, {label: '', prefix: 'Â£'}, {label: 'kgs CO2', prefix: ''}];
+var display_mode = 0, display_modes = [{label: 'units', prefix: ''}, {label: '', prefix: '£'}, {label: 'kgs CO2', prefix: ''}];
 var week_data;
 var unit_cost = 0.137 /* http://www.confusedaboutenergy.co.uk/index.php/domestic-fuels/fuel-prices */, unit_co2 = 0.450 /* from realtimecarbon.org */;
 
@@ -12,10 +12,10 @@ var g = d3.select("svg").append("g").attr("id", "chart");
 
 initial_rad = 100;
 rad_offset = 25;
-ir = function(d, i) {return initial_rad+Math.floor(i/24)*rad_offset;}
-or = function(d, i) {return initial_rad+rad_offset+Math.floor(i/24)*rad_offset;}
-sa = function(d, i) {return (i*2*Math.PI)/24;}
-ea = function(d, i) {return ((i+1)*2*Math.PI)/24;}
+ir = function(d, i) {return initial_rad+(Math.floor((i)/24)+0.1)*rad_offset;}
+or = function(d, i) {return initial_rad+(Math.floor((i)/24)+0.9)*rad_offset;}
+sa = function(d, i) {return ((i+.15)*2*Math.PI)/5;}
+ea = function(d, i) {return ((i+1-.15)*2*Math.PI)/5;}
 
 //Draw the chart
 var color = d3.scale.linear().domain([0.04, 1]).range(["white", "red"]);
@@ -52,15 +52,17 @@ d3.select("svg").append("def")
   .append("path")
   .attr("id", "time_path")
   .attr("d", "M300 "+(300-label_rad)+" a"+label_rad+" "+label_rad+" 0 1 1 -1 0");
-for(var i=0; i<24; i++) {
-  label_angle = (i-6)*(2*Math.PI/24);
-  large_arc = i<6 || i> 18? 0 : 1;
+for(var i=0; i<5; i++) {
+  // label_angle = (i-6)*(2*Math.PI/24);
+  // label_angle = (i)*(2*Math.PI/5);
+  // large_arc = i<6 || i> 18? 0 : 1;
   d3.select("svg").append("text")
     .attr("class", "time label")
     .append("textPath")
     .attr("xlink:href", "#time_path")
-    .attr("startOffset", i*100/24+"%")
-    .text(convert_to_ampm(i));
+    .attr("startOffset", (i*100/5)+10+"%")
+    // .text(convert_to_ampm(i));
+    .text(i+1);
 }
 
 reset_hour_info();
@@ -94,7 +96,7 @@ d3.select('#downweek').on('click', function() {
 function render_hour_info(d, i) {
   var days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
   var day = Math.floor(i/24); //day index
-  var h = i%24; //hour index
+  var h = i%5; //hour index
   var kwh = new Number(d);
   var day_kwh = new Number(totals.days[day]);
   var dm = display_modes[display_mode];
