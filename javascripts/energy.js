@@ -17,15 +17,27 @@ or = function(d, i) {return initial_rad+(Math.floor((i)/24)+0.9)*rad_offset;}
 sa = function(d, i) {return ((i+.15)*2*Math.PI)/5;}
 ea = function(d, i) {return ((i+1-.15)*2*Math.PI)/5;}
 
+sat = d3.scale.linear().domain([0.04, 1]).range([.2,1]);
+
+hue = function(d, i) {
+  var h = (i%5)/5*360;
+  var s = sat(d)
+  console.log('hue',d,i,h);
+  return d3.hsl(h,s,.5)
+  // return "green"
+}
+ 
 //Draw the chart
 var color = d3.scale.linear().domain([0.04, 1]).range(["white", "red"]);
+console.log(color)
 d3.select('#chart').selectAll('path').data(week_data)
   .enter().append('svg:path')
   .attr('d', d3.svg.arc().innerRadius(ir).outerRadius(or).startAngle(sa).endAngle(ea))
   .attr('transform', 'translate(300, 300)')
-    .attr('fill', color)
+  // .attr('fill', color)
+  .attr('fill', hue)
   .attr("stroke", "gray")
-  .attr("stroke-width", "0.3px")
+  .attr("stroke-width", "0.1px")
   .on('mouseover', render_hour_info)
   .on('mouseout', reset_hour_info);
 
@@ -77,7 +89,7 @@ d3.select('#upweek').on('click', function() {
   if(week>=25) return;
   week++;
   week_data = energy_data.slice(week*7*24,(week+1)*7*24);
-  d3.select('#chart').selectAll('path').data(week_data).attr('fill', color);
+  d3.select('#chart').selectAll('path').data(week_data).attr('fill', hue);
   totals = calculate_totals(week_data);
   reset_hour_info();
 })
@@ -86,7 +98,7 @@ d3.select('#downweek').on('click', function() {
   if(week<=0) return;
   week--;
   week_data = energy_data.slice(week*7*24,(week+1)*7*24);
-  d3.select('#chart').selectAll('path').data(week_data).attr('fill', color);
+  d3.select('#chart').selectAll('path').data(week_data).attr('fill', hue);
   totals = calculate_totals(week_data);
   reset_hour_info();
 })
