@@ -11,6 +11,10 @@ Move the stuff to gh-pages branch.
 
 * Integrate [Bootswatch Cyborg](http://bootswatch.com/cyborg/)
 
+## Colors
+* [HSL Picker](http://hslpicker.com/)
+* [Name that color](http://chir.ag/projects/name-that-color/)
+
 ## Example
 
 Energy consumption by Peter Cook: [http://prcweb.co.uk/lab/energy](http://prcweb.co.uk/lab/energy)

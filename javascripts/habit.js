@@ -12,25 +12,43 @@ var anglePad = .1; // blank angle between stacks
 var sa = function(d, i) {return angle(d.angle+0+anglePad);}
 var ea = function(d, i) {return angle(d.angle+1-anglePad);}
 
-sat = d3.scale.linear().domain([0.04, 1]).range([.2,1]);
+// http://hslpicker.com/
+// http://chir.ag/projects/name-that-color/
+var hues = { 
+  red:0,
+  orange:30,
+  yellow:60,
+  chartreuse:90,
+  green:120,
+  springgreen:150,
+  cyan:180,
+  azure:210,
+  blue:240,
+  violet:270,
+  magenta:300,
+  rose:330
+}
 
-hue = function(d, i) {
-  var h = d.angle/5*360;
+var sat = d3.scale.linear().domain([0.0, 1]).range([.2,1]);
+// var hue = d3.scale.linear().domain([0, 4]).range([0,360]);
+// var hue = d3.scale.quantize().domain([0, 4]).range([hues.red,hues.orange,hues.yellow,hues.green,hues.azure]);
+var hue = d3.scale.quantize().domain([0, 4]).range([hues.red,hues.green,hues.yellow,hues.orange,hues.azure]);
+
+var color = function(d, i) {
+  var h = hue(d.angle);
   var s = sat(d.value)
-  // console.log('hue',d,i,h);
   return d3.hsl(h,s,.5)
-  // return "green"
 }
  
 //Draw the chart
-var color = d3.scale.linear().domain([0.04, 1]).range(["white", "red"]);
-console.log(color)
+// var color = d3.scale.linear().domain([0.04, 1]).range(["white", "red"]);
+// console.log(color)
 d3.select('#chart').selectAll('path').data(habit_data)
   .enter().append('svg:path')
   .attr('d', d3.svg.arc().innerRadius(ir).outerRadius(or).startAngle(sa).endAngle(ea))
   .attr('transform', 'translate(300, 300)')
   // .attr('fill', color)
-  .attr('fill', hue)
+  .attr('fill', color)
   .attr("stroke", "gray")
   .attr("stroke-width", "0.1px")
   .on('mouseover', render_value)
@@ -102,7 +120,7 @@ function randData(round) {
     d.value=Math.random();;
     if (round) d.value=Math.round(d.value);
   });
-  d3.select('#chart').selectAll('path').data(habit_data).attr('fill', hue);
+  d3.select('#chart').selectAll('path').data(habit_data).attr('fill', color);
 }
 
 function render_value(d, i) {
