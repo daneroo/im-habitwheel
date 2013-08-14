@@ -15,8 +15,8 @@ svg text {font-family: helvetica, sans-serif; fill: #555;}
 #status g.second text.value, #status g.third text.value {font-size: 30px; fill: #555;}
 #status g.second text.units, #status g.third text.units {font-size: 10px;}
 
-svg text.day.label {font-size: 16px; font-weight: bold; fill: #bbb; pointer-events: none;}
-svg text.time.label {font-size: 12px; font-weight: bold; fill: #bbb; pointer-events: none;}
+svg text.day.label {font-size: 12px; font-weight: normal; fill: #bbb; pointer-events: none;}
+svg text.time.label {font-size: 12px; font-weight: normal; fill: #bbb; pointer-events: none;}
 
 .week_step {font-size: 80px; fill: #555; font-weight: bold; font-family: helvetica, sans-serif; cursor: pointer;}
 

@@ -7,6 +7,10 @@ Move the stuff to gh-pages branch.
 ## d3.js
 //cdnjs.cloudflare.com/ajax/libs/d3/3.2.2/d3.v3.min.js
 
+## TODO
+
+* Integrate [Bootswatch Cyborg](http://bootswatch.com/cyborg/)
+
 ## Example
 
 Energy consumption by Peter Cook: [http://prcweb.co.uk/lab/energy](http://prcweb.co.uk/lab/energy)
